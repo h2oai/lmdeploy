@@ -8,7 +8,7 @@ FROM nvidia/cuda:11.8.0-devel-ubuntu22.04 AS cu11
 ENV CUDA_VERSION_SHORT=cu118
 ENV PATH=/opt/py3/bin:$PATH
 
-FROM gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:2 AS wolfi-cu12
+FROM gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:3 AS wolfi-cu12
 ENV CUDA_VERSION_SHORT=cu121
 ENV WOLFI_OS=1
 
