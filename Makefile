@@ -8,7 +8,7 @@ ifeq ($(VERSION),)
 endif
 
 LMDEPLOY_CUDA_VERSION ?= wolfi-cu12
-LMDEPLOY_BASE_IMAGE   ?= gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:3
+LMDEPLOY_BASE_IMAGE   ?= gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:4
 
 docker_build:
 	docker pull $(LMDEPLOY_BASE_IMAGE)
