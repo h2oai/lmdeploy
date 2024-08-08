@@ -78,6 +78,4 @@ RUN PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu121 pip3 install timm
 RUN MAX_JOBS=4 PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu121 FLASH_ATTENTION_FORCE_BUILD=TRUE pip3 install flash-attn==2.5.2 --no-build-isolation
 RUN pip3 install git+https://github.com/haotian-liu/LLaVA.git --no-deps
 
-COPY . .
-
 CMD ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL-Chat-V1-5"]
