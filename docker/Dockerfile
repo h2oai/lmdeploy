@@ -11,6 +11,8 @@ ENV PATH=/opt/py3/bin:$PATH
 FROM gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:3 AS wolfi-cu12
 ENV CUDA_VERSION_SHORT=cu121
 ENV WOLFI_OS=1
+COPY entrypoint.sh /opt/entrypoint.sh
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
 FROM ${BASE_IMAGE_VERSION} AS final
 
