@@ -19,7 +19,7 @@ ARG PYTHON_VERSION=3.10
 ARG TORCH_VERSION=2.3.0
 ARG TORCHVISION_VERSION=0.18.0
 
-RUN if [[ -z "${WOLFI_OS}" ]]; then \
+RUN if [ -z "${WOLFI_OS}" ]; then \
     rm /etc/apt/sources.list.d/cuda*.list && apt-get update -y && apt-get install -y software-properties-common wget vim &&\
     add-apt-repository ppa:deadsnakes/ppa -y && apt-get update -y && apt-get install -y --no-install-recommends \
     ninja-build rapidjson-dev libgoogle-glog-dev gdb python${PYTHON_VERSION} python${PYTHON_VERSION}-dev python${PYTHON_VERSION}-venv \
@@ -59,3 +59,19 @@ ENV PATH=/opt/lmdeploy/install/bin:$PATH
 
 # explicitly set ptxas path for triton
 ENV TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
+
+# Customize
+
+WORKDIR /app
+
+RUN pip3 uninstall pkg_resources -y
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade setuptools==66.1.1
+RUN pip3 uninstall -y ninja && pip3 install ninja
+RUN PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu121 pip3 install timm xformers triton==2.1.0 transformers
+RUN MAX_JOBS=4 PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu121 FLASH_ATTENTION_FORCE_BUILD=TRUE pip3 install flash-attn==2.5.2 --no-build-isolation
+RUN pip3 install git+https://github.com/haotian-liu/LLaVA.git --no-deps
+
+COPY . .
+
+CMD ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL-Chat-V1-5"]
