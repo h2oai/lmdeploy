@@ -1,3 +1,4 @@
+ARG WOLFI_OS_BASE_IMAGE=none
 ARG BASE_IMAGE_VERSION=wolfi-cu12
 
 FROM nvidia/cuda:12.4.1-devel-ubuntu22.04 AS cu12
@@ -8,7 +9,8 @@ FROM nvidia/cuda:11.8.0-devel-ubuntu22.04 AS cu11
 ENV CUDA_VERSION_SHORT=cu118
 ENV PATH=/opt/py3/bin:$PATH
 
-FROM gcr.io/vorvan/h2oai/h2ogpt-lmdeploy-wolfi-base:3 AS wolfi-cu12
+FROM ${WOLFI_OS_BASE_IMAGE} AS wolfi-cu12
+ARG WOLFI_OS_BASE_IMAGE=none
 ENV CUDA_VERSION_SHORT=cu121
 ENV WOLFI_OS=1
 COPY entrypoint.sh /opt/entrypoint.sh
